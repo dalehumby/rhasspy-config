@@ -1,0 +1,10 @@
+en/deepspeech/
+en/docker-compose.yml
+en/intent_graph.pickle.gz
+en/kaldi/
+en/kaldi_custom_words.txt
+en/kaldi_unknown_words.txt
+en/profile.json
+en/supervisord.conf
+en/supervisord.log
+en/supervisord.pid
