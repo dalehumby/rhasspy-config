@@ -1,10 +1,10 @@
-bedside
 foyer
-inside | (indoor | indoors):inside
 outside | (outdoor | outdoors):outside
-lounge
-hall
 bedroom
-kitchen
 entrance
+hall
+inside | (indoor | indoors):inside
+bedside
+lounge
+kitchen
 balcony

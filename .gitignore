@@ -1,4 +1,5 @@
 en/deepspeech/
+en/vosk/
 en/docker-compose.yml
 en/intent_graph.pickle.gz
 en/kaldi/
@@ -8,3 +9,5 @@ en/profile.json
 en/supervisord.conf
 en/supervisord.log
 en/supervisord.pid
+*.db
+*.wav
