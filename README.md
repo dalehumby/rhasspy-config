@@ -7,17 +7,29 @@ These are my config files, mostly as a backup and history of my changes, but may
 
 ## Setup
 
-I use Rhasspy in [satellite/base mode](https://rhasspy.readthedocs.io/en/latest/tutorials/#server-with-satellites). The satellites are each a Rasperry Pi 4B with Jabbra 410 USB conference speaker attached. The Pi satellites communicate with my main home server, a more powerful Dell that runs all my home automation Docker containers. (See [homelab](https://github.com/dalehumby/homelab), [homeassistant](https://github.com/dalehumby/homeassistant-config) and [esphome](https://github.com/dalehumby/esphome).)
+I use Rhasspy in [satellite/base mode](https://rhasspy.readthedocs.io/en/latest/tutorials/#server-with-satellites). The satellites are each a Rasperry Pi 4B with Jabbra 410 USB conference speaker attached. The Pi satellites communicate with my main home server, a more powerful Dell that runs all my home automation Docker containers. (See my [homelab](https://github.com/dalehumby/homelab), [homeassistant](https://github.com/dalehumby/homeassistant-config) and [esphome](https://github.com/dalehumby/esphome).)
 
-Each Pi satellite constantly listens on the Jabbra mic for the wake word. I am using "Hey Mycroft" because it has the lowest latency, lowest false positive rate. When the wake word is detected Rhasspy on the Pi streams the audio over MQTT to the Rhasspy instance running on the main server. 
+### Base
 
-The server does Speech-to-text: I am using Mozilla DeepSpeech, although I did experiment with [Whisper](https://openai.com/blog/whisper/). (I may use Whisper in the future if the speed is better. Currently it takes around 8s to transcribe 3s of speech on my CPU, too slow for a realtime voice assistant.)
+The base is run as part of my Docker Swarm [home stack](https://github.com/dalehumby/homelab/blob/master/home-stack.yaml), with this repos `en/` folder mounted on a shared drive so Rhasspy base can get to the config from wherever its running.
 
-Rhasspy matches the text against the text in the sentences.ini and the files in intents using Fsticufs, built into Rhasspy.
+### Satellites
+
+Each satellite should copy `.asoundrc` into its home directory, and then run `docker compose up -d -f satellite-compose.yaml` to launch the local version of Rhasspy. 
+
+Set up the siteId (also on the base), MQTT, PyAudio, Mycroft Precise, Hermes MQTT and aplay.
+
+Each satellite constantly listens on the Jabbra mic for the wake word. I am using "Hey Mycroft" because, for me, it has the lowest latency, lowest false positive rate. When the wake word is detected Rhasspy satellite streams the audio over MQTT to the base instance running on the main server.
+
+The server does speech-to-text: I am using Mozilla DeepSpeech, and experimenting with [Whisper](https://openai.com/blog/whisper/) by sending the raw wav to OpenAI Whisper API using [whisper.sh](en/whisper.sh).
+
+Rhasspy matches the speech-to-text against the sentences.ini and intents/ files using Fsticufs, built into Rhasspy.
 
 Once an intent is matched the intent is handled by a Node-RED flow. This typically communicating with Home Assistant to turn on/off lights, run timers, get the weather, start the vacuum cleaner, etc.
 
-Voice response (text-to-speech or TTS) is handled by [Mimic3](https://mycroft.ai/mimic-3/) and I use the ljspeech. This gives the most natural voice in the shortest amount of time.
+Voice response (text-to-speech or TTS) is handled by [Mimic3](https://mycroft.ai/mimic-3/). I use the ljspeech, which gives the most natural voice with the lowest latency.
+
 
 ## Why?
+
 I wanted a way to create highly customised voice commands, and experiment with ideas I've had with how voice assistants should (could?) work. I also use Google Assistant at home, and Siri on my Watch and phone.
