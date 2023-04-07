@@ -21,9 +21,9 @@ Set up the siteId (also on the base), MQTT, PyAudio, Mycroft Precise, Hermes MQT
 
 Each satellite constantly listens on the Jabbra mic for the wake word. I am using "Hey Mycroft" because, for me, it has the lowest latency, lowest false positive rate. When the wake word is detected Rhasspy satellite streams the audio over MQTT to the base instance running on the main server.
 
-The server does speech-to-text: I am using Mozilla DeepSpeech, and experimenting with [Whisper](https://openai.com/blog/whisper/) by sending the raw wav to OpenAI Whisper API using [whisper.sh](en/whisper.sh).
+The server does speech-to-text: I am using [Whisper](https://openai.com/blog/whisper/) by sending the raw wav to OpenAI Whisper API using [whisper.sh](en/whisper.sh).
 
-Rhasspy matches the speech-to-text against the sentences.ini and intents/ files using Fsticufs, built into Rhasspy.
+Rhasspy matches the speech-to-text against the sentences.ini and intents/ files using Fsticufs, built into Rhasspy. I am experimenting with using [GPT3 for intent matching](llm-intent-recognition.md).
 
 Once an intent is matched the intent is handled by a Node-RED flow. This typically communicating with Home Assistant to turn on/off lights, run timers, get the weather, start the vacuum cleaner, etc.
 
