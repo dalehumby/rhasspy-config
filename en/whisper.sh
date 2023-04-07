@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# First argument is OpenAi API key
+# First argument is OpenAI API key
 
 # WAV data is avaiable via STDIN
 wav_file=/profiles/en/speech.wav
@@ -12,9 +12,6 @@ curl https://api.openai.com/v1/audio/transcriptions \
   -H "Content-Type: multipart/form-data" \
   -F file=@$wav_file \
   -F model=whisper-1 \
-  -F response_format=text \
-  | sed -e "s/[[:punct:]]//g" | sed -e "s/\(.*\)/\L\1/"
-
-# Remove puncutation and make lower case
+  -F response_format=text
 
 # Transcription on stdout
