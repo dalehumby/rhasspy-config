@@ -1,10 +1,10 @@
-foyer
-outside | (outdoor | outdoors):outside
 bedroom
+foyer
 entrance
-hall
-inside | (indoor | indoors):inside
-bedside
-lounge
-kitchen
 balcony
+bedside
+kitchen
+inside | (indoor | indoors):inside
+lounge
+outside | (outdoor | outdoors):outside
+hall
